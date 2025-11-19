@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Efficiency Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Code Efficiency Studio</h1>
+      <p>Paste Python or Java code, get optimization insights and CO₂ savings.</p>
+    </header>
+
+    <main>
+      <section class="panel">
+        <form id="analysis-form">
+          <label for="language">Language</label>
+          <select id="language" required>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+          </select>
+
+          <label for="code">Code Snippet</label>
+          <textarea
+            id="code"
+            placeholder="Paste your code here..."
+            spellcheck="false"
+            required
+          ></textarea>
+
+          <button type="submit">Analyze & Optimize</button>
+        </form>
+      </section>
+
+      <section class="panel" id="results" hidden>
+        <h2>Analysis Results</h2>
+        <div class="cards">
+          <article class="card" id="summary-card"></article>
+          <article class="card" id="co2-card"></article>
+        </div>
+
+        <div class="split">
+          <div>
+            <h3>Original Metrics</h3>
+            <pre id="before-metrics"></pre>
+          </div>
+          <div>
+            <h3>Improved Metrics</h3>
+            <pre id="after-metrics"></pre>
+          </div>
+        </div>
+
+        <h3>Alternative Code</h3>
+        <pre id="alternative-code"></pre>
+      </section>
+    </main>
+
+    <footer>
+      Built with Flask + Hugging Face Inference API (optional).
+    </footer>
+
+    <script src="main.js" type="module"></script>
+  </body>
+</html>
