@@ -38,6 +38,7 @@
         <div class="cards">
           <article class="card" id="summary-card"></article>
           <article class="card" id="co2-card"></article>
+          <article class="card" id="emissions-card"></article>
         </div>
 
         <div class="split">
@@ -51,13 +52,36 @@
           </div>
         </div>
 
+        <section class="insights">
+          <h3>AI Insights</h3>
+          <ul id="analysis-insights"></ul>
+        </section>
+
         <h3>Alternative Code</h3>
         <pre id="alternative-code"></pre>
+      </section>
+
+      <section class="panel" id="history-panel" hidden>
+        <h2>Recent Analyses</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Language</th>
+                <th>Summary</th>
+                <th>Model</th>
+                <th>Recorded</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
       </section>
     </main>
 
     <footer>
-      Built with Flask + Hugging Face Inference API (optional).
+      Built with Flask + local Ollama DeepSeek inference (optional).
     </footer>
 
     <script src="main.js" type="module"></script>
