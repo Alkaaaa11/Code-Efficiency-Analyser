@@ -3,16 +3,18 @@ from __future__ import annotations
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
-from analysis import (
-    SuggestionEngine,
-    analyze_code_complexity,
-    estimate_co2_impact,
-    summarize_differences,
-)
+from analysis import SuggestionEngine, analyze_code_complexity, estimate_co2_impact, summarize_differences
+try:  # pragma: no cover - allow running from repo root or backend dir
+    from services.history_store import HistoryStore
+    from services.tracking import CodeCarbonSession
+except ModuleNotFoundError:  # type: ignore
+    from backend.services.history_store import HistoryStore  # type: ignore
+    from backend.services.tracking import CodeCarbonSession  # type: ignore
 
 app = Flask(__name__)
 CORS(app)
 suggestion_engine = SuggestionEngine()
+history_store = HistoryStore()
 
 
 @app.get("/api/health")
@@ -34,19 +36,22 @@ def analyze_code():
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
 
-    suggestion = suggestion_engine.generate(code, language, before_metrics)
-    alternative_code = suggestion.get("alternative_code", code)
+    with CodeCarbonSession() as session:
+        suggestion = suggestion_engine.generate(code, language, before_metrics)
+        alternative_code = suggestion.get("alternative_code", code)
 
-    try:
-        after_metrics = analyze_code_complexity(alternative_code, language)
-    except ValueError:
-        after_metrics = before_metrics
+        try:
+            after_metrics = analyze_code_complexity(alternative_code, language)
+        except ValueError:
+            after_metrics = before_metrics
 
-    co2_before = estimate_co2_impact(before_metrics)
-    co2_after = estimate_co2_impact(after_metrics)
+        co2_before = estimate_co2_impact(before_metrics)
+        co2_after = estimate_co2_impact(after_metrics)
 
-    comparison = summarize_differences(before_metrics, after_metrics)
-    energy_savings = round(max(co2_before["energy_kwh"] - co2_after["energy_kwh"], 0), 4)
+        comparison = summarize_differences(before_metrics, after_metrics)
+        energy_savings = round(max(co2_before["energy_kwh"] - co2_after["energy_kwh"], 0), 4)
+
+    emissions = session.result().as_dict()
 
     response = {
         "analysis": {
@@ -59,10 +64,28 @@ def analyze_code():
             "after": co2_after,
             "energy_saved_kwh": energy_savings,
         },
+        "session_emissions": emissions,
         "suggestion": suggestion,
         "alternative_code": alternative_code,
     }
+    history_store.insert(
+        language=language,
+        summary=str(suggestion.get("summary", "")),
+        ai_model=suggestion.get("ai_model_used"),
+        used_fallback=bool(suggestion.get("used_fallback")),
+        before_metrics=before_metrics,
+        after_metrics=after_metrics,
+        co2_projection=response["co2"],
+        session_emissions=emissions,
+        alternative_code=alternative_code,
+    )
+    response["history"] = history_store.recent(limit=10)
     return jsonify(response)
+
+
+@app.get("/api/history")
+def list_history():
+    return jsonify({"items": history_store.recent(limit=25)})
 
 
 if __name__ == "__main__":
