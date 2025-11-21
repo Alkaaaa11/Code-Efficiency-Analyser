@@ -24,6 +24,23 @@ header {
   margin-bottom: 2rem;
 }
 
+header nav {
+  margin-top: 1rem;
+}
+
+header nav a {
+  color: #6bffc5;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(107, 255, 197, 0.4);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+}
+
+header nav a:hover {
+  border-color: rgba(107, 255, 197, 0.9);
+}
+
 main {
   display: grid;
   gap: 1.5rem;
@@ -83,6 +100,21 @@ button:hover {
   transform: translateY(-2px);
 }
 
+.card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-heading button {
+  width: auto;
+  margin: 0;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -118,6 +150,43 @@ button:hover {
 
 .table-wrapper {
   overflow-x: auto;
+}
+
+.charts {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x mandatory;
+}
+
+.chart-card {
+  background: var(--card);
+  border-radius: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 320px;
+  flex: 0 0 min(520px, 85vw);
+  scroll-snap-align: start;
+  position: relative;
+}
+
+#dashboard-report {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#dashboard-report li {
+  margin-bottom: 0.5rem;
+  color: #cbd5f5;
+}
+
+canvas {
+  width: 100% !important;
+  height: 220px !important;
 }
 
 table {

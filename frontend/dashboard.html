@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Impact Dashboard • Code Efficiency Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Impact Dashboard</h1>
+      <p>Track cumulative CO₂ savings and compile-time improvements across runs.</p>
+      <nav>
+        <a href="index.html">Back to Analyzer</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="cards">
+          <article class="card" id="dashboard-totals">
+            <h3>Totals</h3>
+            <p>Loading totals…</p>
+          </article>
+          <article class="card">
+            <div class="card-heading">
+              <h3>Impact Report</h3>
+              <button id="refresh-dashboard" type="button">Refresh</button>
+            </div>
+            <ul id="dashboard-report">
+              <li>Waiting for data…</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="charts">
+          <div class="chart-card">
+            <h3>Recent CO₂ Saved</h3>
+            <canvas id="co2-chart" height="220"></canvas>
+          </div>
+          <div class="chart-card">
+            <h3>Recent Compile Time Saved</h3>
+            <canvas id="compile-chart" height="220"></canvas>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Built with Flask + local Ollama DeepSeek inference (optional).
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="dashboard.js" type="module"></script>
+  </body>
+</html>
+
