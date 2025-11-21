@@ -88,5 +88,10 @@ def list_history():
     return jsonify({"items": history_store.recent(limit=25)})
 
 
+@app.get("/api/dashboard")
+def dashboard_summary():
+    return jsonify(history_store.dashboard(limit=25))
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
