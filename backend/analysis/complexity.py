@@ -10,19 +10,28 @@ from typing import Dict, List, Sequence
 LOOP_KEYWORDS = {
     "python": ["for", "while"],
     "java": ["for", "while", "do"],
+    "javascript": ["for", "while", "do"],
+    "html": [],
+    "css": [],
 }
 
 CONDITIONAL_KEYWORDS = {
     "python": ["if", "elif", "else", "match"],
     "java": ["if", "else", "switch", "case"],
+    "javascript": ["if", "else", "switch", "case"],
+    "html": [],
+    "css": ["@if", "@else", "@media"],
 }
 
 FUNCTION_KEYWORDS = {
     "python": ["def", "class"],
     "java": ["class", "void", "public", "private", "protected"],
+    "javascript": ["function", "class", "const", "let", "var", "=>"],
+    "html": [],
+    "css": [],
 }
 
-SUPPORTED_LANGUAGES = {"python", "java"}
+SUPPORTED_LANGUAGES = {"python", "java", "javascript", "html", "css"}
 
 
 @dataclass

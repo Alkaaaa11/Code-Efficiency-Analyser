@@ -9,7 +9,7 @@
   <body>
     <header>
       <h1>Code Efficiency Studio</h1>
-      <p>Paste Python or Java code, get optimization insights and CO₂ savings.</p>
+      <p>Analyze code snippets or upload project folders (ZIP) for optimization insights and CO₂ savings.</p>
       <nav>
         <a href="dashboard.html">Open Impact Dashboard</a>
       </nav>
@@ -17,11 +17,15 @@
 
     <main>
       <section class="panel">
+        <h2>Single File Analysis</h2>
         <form id="analysis-form">
           <label for="language">Language</label>
           <select id="language" required>
             <option value="python">Python</option>
             <option value="java">Java</option>
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
           </select>
 
           <label for="code">Code Snippet</label>
@@ -29,11 +33,33 @@
             id="code"
             placeholder="Paste your code here..."
             spellcheck="false"
-            required
           ></textarea>
+
+          <div style="margin: 1rem 0; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 2px dashed var(--border-light);">
+            <p style="margin: 0 0 0.5rem 0; font-weight: 500; color: var(--text-primary);">Or upload a code file:</p>
+            <input type="file" id="code-file-input" accept=".py,.java,.js,.jsx,.html,.css,.htm" style="margin-bottom: 0.5rem;" />
+            <div id="code-file-info" style="font-size: 0.85rem; color: var(--text-secondary); display: none;"></div>
+            <button type="button" id="analyze-uploaded-file-btn" style="display: none; margin-top: 0.5rem;">
+              Analyze Uploaded File
+            </button>
+          </div>
 
           <button type="submit">Analyze & Optimize</button>
         </form>
+      </section>
+
+      <section class="panel">
+        <h2>Project Analysis (ZIP Upload)</h2>
+        <div class="file-upload-area" id="upload-area">
+          <input type="file" id="project-file" class="file-upload-input" accept=".zip" />
+          <p>📁 Drag & drop your project ZIP file here, or click to browse</p>
+          <p class="upload-info">Maximum file size: 250 MB</p>
+          <div id="file-info" class="upload-info" style="display: none;"></div>
+        </div>
+        <button type="button" id="analyze-project-btn" style="margin-top: 1rem; display: none;">
+          Analyze & Optimize Project
+        </button>
+        <div id="project-upload-status" style="display: none; margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 0.5rem; border: 1px solid var(--border-light);"></div>
       </section>
 
       <section class="panel" id="results" hidden>
@@ -62,6 +88,14 @@
 
         <h3>Alternative Code</h3>
         <pre id="alternative-code"></pre>
+      </section>
+
+      <section class="panel" id="project-results" hidden>
+        <h2>Project Analysis Results</h2>
+        <div id="project-summary" class="cards"></div>
+        <div id="project-files-list" class="project-files-list"></div>
+        <div id="interconnection-graph" class="interconnection-graph"></div>
+        <div id="project-suggestions"></div>
       </section>
 
       <section class="panel" id="history-panel" hidden>
